@@ -44,4 +44,30 @@ userrouter.post('/signup', async (req,res)=>{
   })
 })
 
+const signinBody = z.object({
+  username: z.string().email(),
+  password: z.string()
+})
+userrouter.post('/signin', async(req,res)=>{
+  const {success} = signinBody.safeParse(req.body);
+  if(!success){
+    return res.status(411).json({
+      msg :"invalid email"
+    })
+  }
+  const userSignin = await User.findOne({
+    userName: req.body.username,
+    password: req.body.password
+  });
+  if(!userSignin) {
+    return res.status(411).json({
+      msg: "error while loggin in"
+    })
+  }
+  const userId = userSignin._id;
+  const token = jwt.sign({userId}, JWT_SECRET)
+  res.status(200).json({\
+    token: token
+  })
+})
 module.exports = userrouter;

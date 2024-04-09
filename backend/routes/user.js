@@ -74,7 +74,7 @@ userrouter.post('/signin', async(req,res)=>{
 
 const updatedSchema = z.object({
   password: z.string().optional(),
-  firstname: z.string().opation(),
+  firstname: z.string().optional(),
   lastname: z.string().optional()
 })
 userrouter.put('/',authMiddleware, async(req,res)=>{
@@ -89,5 +89,10 @@ userrouter.put('/',authMiddleware, async(req,res)=>{
      return res.status(411).json({message: "Error in updating"})
   }
   res.status(200).json({message: "Updated successfully"})
+})
+
+userrouter.get('/bulk', async(req,res)=>{
+  const filter  = req.query.filter;
+  
 })
 module.exports = userrouter;

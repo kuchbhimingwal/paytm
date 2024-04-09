@@ -93,6 +93,16 @@ userrouter.put('/',authMiddleware, async(req,res)=>{
 
 userrouter.get('/bulk', async(req,res)=>{
   const filter  = req.query.filter;
-  
+  const search = await User.find().or([{firstName: filter}, {lastName: filter}])
+  if(!search){
+    return res.status(411).json({msg: "cant find the user"})
+  }
+  res.status(200).json({
+    users: search.map((user)=>({
+      username: user.userName,
+      lastname: user.lastName,
+      _id: user._id
+    }))
+  })
 })
 module.exports = userrouter;

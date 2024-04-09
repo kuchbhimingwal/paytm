@@ -4,8 +4,7 @@ mongoose.connect("mongodb+srv://admin:Shubham%4028@cluster0.yzcu80x.mongodb.net/
 
 const { Schema } = mongoose;
 
-
-const userSchema = ({
+const userSchema = new Schema({
   userName : {
     type: String,
     required: true,
@@ -33,9 +32,21 @@ const userSchema = ({
     minLength: 6
   }
 })
+const accountSchema = new Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    require: true
+  },
+  balance: {
+    type: Number,
+    require: true
+  }
+})
 
 const User = mongoose.model('User',userSchema);
-
+const Account = mongoose.model('Account', accountSchema)
 module.exports = {
-  User
+  User,
+  Account
 }

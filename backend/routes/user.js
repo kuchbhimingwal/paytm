@@ -66,7 +66,7 @@ userrouter.post('/signin', async(req,res)=>{
   }
   const userId = userSignin._id;
   const token = jwt.sign({userId}, JWT_SECRET)
-  res.status(200).json({\
+  res.status(200).json({
     token: token
   })
 })

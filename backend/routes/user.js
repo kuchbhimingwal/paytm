@@ -93,7 +93,7 @@ userrouter.put('/',authMiddleware, async(req,res)=>{
 
 userrouter.get('/bulk', async(req,res)=>{
   const filter  = req.query.filter;
-  const search = await User.find().or([{firstName: filter}, {lastName: filter}])
+  const search = await User.find().or([{firstName: {"$regex": filter}}, {lastName: {"$regex": filter}}])
   if(!search){
     return res.status(411).json({msg: "cant find the user"})
   }

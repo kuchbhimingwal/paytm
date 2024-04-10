@@ -24,6 +24,7 @@ accountrouter.get("/balance", authMiddleware, async(req,res)=>{
       await session.abortTransaction();
       return res.status(411).json({msg: "not enough balance"});
     }
+    
     const receverAccount = await Account.findOne({userId: to}).session(session);
     if(!receverAccount){
       await session.abortTransaction();
